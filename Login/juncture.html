@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="juncture.css">
+    <link rel="icon" href="./JunctureLogo.png">
+    <link rel="" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup "  >
+
+          <form  class="sign-in-form" id="myform"  >
+            <img src="./JunctureLogo.png" alt="" class="image">
+            <h3 class="title" > Sign In Here</h3>
+
+            <div class="input-field"  >
+              <i class="fa-solid fa-user" style=" color: #1f033a7d;"></i>
+              <input type="text" name="username" id="namefield"  placeholder="Username" required  />
+            </div>
+
+            <div class="input-field" >
+              <i class="fa-solid fa-lock" style=" color: #1f033a7d;"></i>
+              <input type="password" id="password" name="password" placeholder="Password" required/>
+            </div>
+
+            <input type="submit" value="Sign in" class="btn solid" onclick=""> 
+            <p><a href="#" id="sign-up-btn" style="margin-top: 2px;"> Reset Password</a></p>
+          </form>
+
+          <form action="#" class="sign-up-form" id="reset">
+            <!-- <img src="../img/logo.jpg" alt="" class="image"> -->
+            <h3 class="title" style=" color: #410280;">Reset Your Password Here</h3>
+            <div class="input-field">
+              <i class="fas fa-user" style=" color: #420b7aa2;"></i>
+              <input type="text" placeholder="Username" id="name" name="username" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock" style=" color: #420b7aa2;"></i>
+              <input type="password" placeholder="Current Password"  id="pass" name="password"/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock" style=" color: #420b7aa2;"></i>
+              <input type="password" placeholder="New Password"  id="new_pass" name="new_password" />
+            </div>
+            <input type="submit" class="btn" value="Reset Password"   />
+            <p style="font-size: 13px; color:#410280;">Back to &nbsp;<a href=" #" id="sign-in-btn" style="color:#4102809d;">Log in</a></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          
+          <div class="content">
+            <h1 style="font-size: 2em;">Welcome To Juncture</h1>    
+              <br>
+              <!-- <img src="../img/data.svg" alt="" width="50px" height="50px"> -->
+          </div>
+        
+        </div>
+
+        <div class="panel right-panel">
+          <div class="content">
+            <h3 style="font-size: 3em;"> <pre>
+                Welcome To Juncture!
+              </pre></h3>
+           
+        </div>
+        <!-- <img src="./img/data.svg" alt="" class="image"> -->
+      </div>
+    </div>
+
+    <script >
+      const sign_in_btn = document.querySelector("#sign-in-btn");
+      const sign_up_btn = document.querySelector("#sign-up-btn");
+      const container = document.querySelector(".container");
+
+      sign_up_btn.addEventListener("click", () => {
+        container.classList.add("sign-up-mode");
+      });
+
+      sign_in_btn.addEventListener("click", () => {
+        container.classList.remove("sign-up-mode");
+      });
+
+
+      /*Login Reset backend */
+         const myform=document.getElementById('myform');
+        myform.addEventListener('submit', function(e){
+
+          e.preventDefault();
+
+          name = document.getElementById('namefield').value ;
+          pass = document.getElementById('password').value;
+          const formData = {'username':name, 'password':pass};
+
+
+          console.log('data',formData);
+          
+          fetch('http://127.0.01:5000/login', {
+
+            method:'post',
+            body:JSON.stringify(formData),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'}
+
+            } ) . then(function(response){
+
+              return response.json();
+            
+            }).then(function(text){
+              
+              console.log(text);
+              if(text['success']) {
+
+                window.location.href="Job_pos.html";
+                console.log('LOG IN SUCCESSFULLY');
+              }
+              else{
+
+                alert ('Your Password or Username is Wrong !!');
+              }
+
+            
+            }).catch(function(error){
+              
+              console.error(error);
+            })
+          
+          });
+
+        const reset=document.getElementById('reset');
+        reset.addEventListener('submit', function(e){
+
+          e.preventDefault();
+
+          name = document.getElementById('name').value ;
+          pass = document.getElementById('pass').value;
+          new_pass = document.getElementById('new_pass').value;
+          console.log('password is',pass);
+          const formData = {'username':name,'password':pass, 'new_password':new_pass};
+
+          console.log('data',formData);
+
+          fetch('http://127.0.01:5000/reset', {
+
+            method:'post',
+            body:JSON.stringify(formData),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'}
+
+          } ) . then(function(response){
+
+            return response.text();
+
+          }).then(function(text){
+
+            console.log(text);
+
+          }).catch(function(error){
+          
+            console.error(error);
+
+          })
+        });
+
+      
+       
+
+    </script>
+  </body>
+</html>

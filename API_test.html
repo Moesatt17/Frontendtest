@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+  <div style="display: flex; justify-content:space-between;">
+    <div class="border border-0 shadow-sm m-3" style="background-color: rgba(255, 228, 196, 0.423); width: 300px; height:300px;">
+      <div style="text-align: center; padding: 20px;">
+        <img src="" id="kitty" alt="" width="150px" height="50%">
+      </div>
+      <div style="margin: 2px; padding: 12px; color: rgba(0, 0, 0, 0.553);">
+        Lorem ipsum dolor sit amet.
+      </div>
+    </div>
+    
+    <div class="border border-0 shadow-sm m-3" style="background-color: rgba(168, 157, 214, 0.212); width: 300px; height:300px;">
+      <div style="text-align: center; padding: 20px;">
+        <h2 id="changetext" style="color: rgba(11, 11, 128, 0.693); font-size: medium;">If fetching API works,this test will change !</h2>
+        <button onclick="fetch_api();" class="btn btn-outline-primary"> Click this API testing Button </button>
+       </div>
+    </div>
+
+    <div class="border border-0 shadow-sm m-3" style="background-color: rgba(189, 167, 141, 0.423); width: 300px; height:300px;">
+      <div style="text-align: center; padding: 20px;">
+        <img src="" id="visual" alt="" width="200px" height="200px">
+      </div>
+      <div style="margin: 2px; padding: 12px; color: rgba(125, 4, 4, 0.553);">
+        Data Visualization Test
+      </div>
+    </div>
+
+  </div>
+  <script>
+    fetch('https://th.bing.com/th/id/R.c4bd86a023674963e05e0a70eaf763f5?rik=17glDJRSkzhefQ&pid=ImgRaw&r=0').then(response =>{
+      console.log(response);
+      return response.blob();
+    })
+    .then (blob=> {
+      console.log(blob);
+      document.getElementById('kitty').src=URL.createObjectURL(blob);
+    });
+    fetch('https://th.bing.com/th/id/R.cccf64856db12ff39b58d56f42c87c7c?rik=gpNtBDry3%2fc6iw&riu=http%3a%2f%2fwww.advsofteng.com%2fdoc%2fcdpydoc%2fimages%2fsimplebar.png&ehk=pqvZsCdsU%2bK5foWJShSXmheqSlHrT2ilIxujZssWTLY%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1').then(data =>{
+      console.log(data);
+      return data.blob();
+    })
+    .then (blob=> {
+      console.log(blob);
+      document.getElementById('visual').src=URL.createObjectURL(blob);
+    });
+    function fetch_api(){
+      fetch('http://127.0.0.1:5000').then( test=>test.json() ).then (function(testdata){
+        document.getElementById('changetext').innerHTML=testdata['message'];
+      }); 
+    }
+    
+  </script>
+</body>
+</html>
